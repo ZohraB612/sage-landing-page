@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAGE - Smart Assistant that Gets Everything done</title>
+    <style>
+        :root {
+            --primary: #3a7bd5;
+            --secondary: #00d2ff;
+            --dark: #2d3748;
+            --light: #f7fafc;
+            --grey: #a0aec0;
+            --success: #48bb78;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        
+        .nav-links a {
+            margin-left: 2rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4rem 0;
+        }
+        
+        .hero-content {
+            flex: 1;
+            padding-right: 2rem;
+        }
+        
+        .hero-image {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .hero-image img {
+            max-width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--grey);
+            margin-bottom: 2rem;
+        }
+        
+        .benefits {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+        
+        .benefit {
+            display: flex;
+            align-items: center;
+            margin-right: 2rem;
+        }
+        
+        .benefit-icon {
+            width: 20px;
+            height: 20px;
+            background-color: var(--success);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+            position: relative;
+        }
+        
+        .benefit-icon::after {
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: 8px;
+            height: 5px;
+            border-left: 2px solid white;
+            border-bottom: 2px solid white;
+            transform: rotate(-45deg);
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 6px rgba(58, 123, 213, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(58, 123, 213, 0.4);
+        }
+        
+        section {
+            padding: 5rem 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--grey);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-description {
+            color: var(--grey);
+        }
+        
+        .chat-example {
+            background: white;
+            border-radius: 16px;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .user-message {
+            background-color: #f4f7fa;
+            text-align: right;
+            margin-left: 2rem;
+        }
+        
+        .bot-message {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            margin-right: 2rem;
+        }
+        
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .testimonial-content {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            margin-right: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .author-info h4 {
+            font-weight: 600;
+        }
+        
+        .author-info p {
+            color: var(--grey);
+            font-size: 0.9rem;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 5rem 0;
+            background: linear-gradient(90deg, rgba(58, 123, 213, 0.1), rgba(0, 210, 255, 0.1));
+            border-radius: 16px;
+            margin: 3rem 0;
+        }
+        
+        .security {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+        
+        .security-badge {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
+            color: var(--grey);
+            font-size: 0.9rem;
+        }
+        
+        .security-icon {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        footer {
+            padding: 3rem 0;
+            background-color: #f7fafc;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .footer-logo {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            flex: 2;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 150px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 0.7rem;
+        }
+        
+        .footer-column ul li a {
+            text-decoration: none;
+            color: var(--grey);
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--primary);
+        }
+        
+        .social-links {
+            display: flex;
+            margin-top: 1.5rem;
+        }
+        
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--grey);
+            font-size: 0.9rem;
+        }
+
+        /* Animation */
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                padding: 2rem 0;
+            }
+            
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 2rem;
+            }
+            
+            h1 {
+                font-size: 2.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .nav-links a {
+                margin-left: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">SAGE</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it Works</a>
+                <a href="#testimonials">Testimonials</a>
+                <a href="#cta">Get Started</a>
+            </div>
+        </nav>
+        
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Your Personal <span class="gradient-text">AI Assistant</span> That Gets Everything Done</h1>
+                <p class="subtitle">SAGE handles complex tasks with ease, saving you time and reducing the need to juggle multiple apps.</p>
+                
+                <div class="benefits">
+                    <div class="benefit">
+                        <div class="benefit-icon"></div>
+                        <span>Smart Task Handling</span>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon"></div>
+                        <span>Works Across Services</span>
+                    </div>
+                    <div class="benefit">
+                        <div class="benefit-icon"></div>
+                        <span>Available 24/7</span>
+                    </div>
+                </div>
+                
+                <a href="#" class="cta-button">Try SAGE on Telegram</a>
+            </div>
+            
+            <div class="hero-image floating">
+                <!-- Animated SAGE icon/illustration -->
+                <div style="position: relative; width: 360px; height: 360px; margin: 0 auto; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); border-radius: 50%; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                    <!-- Central SAGE logo without background circle -->
+                    <div style="position: relative; width: 180px; height: 180px; display: flex; align-items: center; justify-content: center; z-index: 3;">
+                        <!-- SAGE text logo with gradient -->
+                        <div style="font-size: 42px; font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -1px; text-shadow: 0 2px 10px rgba(58, 123, 213, 0.3);">SAGE</div>
+                        
+                        <!-- Pulsing circles around the logo -->
+                        <div style="position: absolute; width: 180px; height: 180px; border: 2px solid rgba(58, 123, 213, 0.3); border-radius: 50%; animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;"></div>
+                        <div style="position: absolute; width: 200px; height: 200px; border: 2px solid rgba(58, 123, 213, 0.2); border-radius: 50%; animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite 0.5s;"></div>
+                        <div style="position: absolute; width: 220px; height: 220px; border: 2px solid rgba(58, 123, 213, 0.1); border-radius: 50%; animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite 1s;"></div>
+                    </div>
+                    
+                    <!-- Orbiting task icons -->
+                    <div style="position: absolute; width: 300px; height: 300px; animation: rotate 20s linear infinite; z-index: 2;">
+                        <!-- Email icon -->
+                        <div style="position: absolute; top: 30px; left: 135px; width: 36px; height: 36px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 4s ease-in-out infinite;">
+                            <div style="font-size: 18px;">✉️</div>
+                        </div>
+                        
+                        <!-- Calendar icon -->
+                        <div style="position: absolute; top: 135px; right: 30px; width: 36px; height: 36px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 4s ease-in-out infinite 0.5s;">
+                            <div style="font-size: 18px;">📅</div>
+                        </div>
+                        
+                        <!-- Travel icon -->
+                        <div style="position: absolute; bottom: 30px; left: 135px; width: 36px; height: 36px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 4s ease-in-out infinite 1s;">
+                            <div style="font-size: 18px;">✈️</div>
+                        </div>
+                        
+                        <!-- Finance icon -->
+                        <div style="position: absolute; top: 135px; left: 30px; width: 36px; height: 36px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 4s ease-in-out infinite 1.5s;">
+                            <div style="font-size: 18px;">💰</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Outer orbiting service icons -->
+                    <div style="position: absolute; width: 340px; height: 340px; animation: rotate 30s linear infinite reverse; z-index: 1;">
+                        <!-- Weather icon -->
+                        <div style="position: absolute; top: 50px; left: 160px; width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 5s ease-in-out infinite 0.2s;">
+                            <div style="font-size: 14px;">☀️</div>
+                        </div>
+                        
+                        <!-- Transport icon -->
+                        <div style="position: absolute; top: 160px; right: 50px; width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 5s ease-in-out infinite 0.7s;">
+                            <div style="font-size: 14px;">🚗</div>
+                        </div>
+                        
+                        <!-- Restaurant icon -->
+                        <div style="position: absolute; bottom: 50px; left: 160px; width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 5s ease-in-out infinite 1.3s;">
+                            <div style="font-size: 14px;">🍽️</div>
+                        </div>
+                        
+                        <!-- Shopping icon -->
+                        <div style="position: absolute; top: 160px; left: 50px; width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 5s ease-in-out infinite 1.9s;">
+                            <div style="font-size: 14px;">🛒</div>
+                        </div>
+                        
+                        <!-- Event icon -->
+                        <div style="position: absolute; top: 90px; left: 80px; width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 5s ease-in-out infinite 2.5s;">
+                            <div style="font-size: 14px;">🎉</div>
+                        </div>
+                        
+                        <!-- Job icon -->
+                        <div style="position: absolute; top: 90px; right: 80px; width: 24px; height: 24px; background: white; border-radius: 50%; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: flex; align-items: center; justify-content: center; animation: float-icon 5s ease-in-out infinite 3.1s;">
+                            <div style="font-size: 14px;">💼</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Light beams removed -->
+                    <div style="position: absolute; width: 100%; height: 100%; z-index: 0;"></div>
+                </div>
+                
+                <style>
+                    @keyframes rotate {
+                        from { transform: rotate(0deg); }
+                        to { transform: rotate(360deg); }
+                    }
+                    
+                    @keyframes float-icon {
+                        0% { transform: translateY(0px); }
+                        50% { transform: translateY(-8px); }
+                        100% { transform: translateY(0px); }
+                    }
+                    
+                    @keyframes pulse-ring {
+                        0% { transform: scale(0.95); opacity: 1; }
+                        70% { transform: scale(1.1); opacity: 0.3; }
+                        100% { transform: scale(0.95); opacity: 1; }
+                    }
+                </style>
+            </div>
+        </section>
+        
+        <section id="features">
+            <div class="section-header">
+                <h2 class="section-title">Smart Features, <span class="gradient-text">Endless Possibilities</span></h2>
+                <p class="section-subtitle">SAGE integrates with your favorite services to streamline your tasks and make life easier.</p>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">✉️</div>
+                    <h3 class="feature-title">Sending Emails</h3>
+                    <p class="feature-description">Compose and send emails via Outlook without switching apps. Multiple agents handle drafting, proofreading, and scheduling for better quality and efficiency.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">✈️</div>
+                    <h3 class="feature-title">Complete Trip Planning</h3>
+                    <p class="feature-description">Say "Plan my vacation to Tokyo" and watch as multiple agents book flights, find hotels, create daily itineraries, and monitor weather patterns—all coordinated seamlessly.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">Job Search Accelerator</h3>
+                    <p class="feature-description">Agents work in parallel to find matching job listings, tailor your résumé for each position, prepare personalized cover letters, and even help you prepare for interviews.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3 class="feature-title">Financial Command Center</h3>
+                    <p class="feature-description">Get a holistic view of your finances with agents that analyze spending patterns, monitor investments, identify savings opportunities, and help you achieve financial goals.</p>
+                </div>
+            </div>
+            
+            <div class="features" style="margin-top: 2rem;">
+                <div class="feature-card">
+                    <div class="feature-icon">🎉</div>
+                    <h3 class="feature-title">Event Planning Maestro</h3>
+                    <p class="feature-description">Plan perfect events without stress. SAGE's agents handle venue research, guest coordination, vendor negotiations, scheduling, and all logistics in one streamlined workflow.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="how-it-works">
+            <div class="section-header">
+                <h2 class="section-title"><span class="gradient-text">How It Works</span></h2>
+                <p class="section-subtitle">SAGE makes complex tasks simple through its advanced AI technology and intuitive interface.</p>
+            </div>
+            
+            <div class="chat-example" style="margin-top: 4rem;">
+                <div class="message user-message">
+                    <p>Hey SAGE, I need to plan a weekend trip to Paris for my anniversary next month.</p>
+                </div>
+                
+                <div class="message bot-message">
+                    <p>I'd be happy to help plan your anniversary trip to Paris! What dates are you considering, and what's your budget?</p>
+                </div>
+                
+                <div class="message user-message">
+                    <p>April 15-17, around £1000 total. We love art and good food.</p>
+                </div>
+                
+                <div class="message bot-message">
+                    <p>Perfect! I'm finding flight options, searching for romantic boutique hotels near art districts, and creating an itinerary focused on galleries and renowned restaurants. I'll have a complete plan for you in just a few minutes!</p>
+                </div>
+                
+                <div class="message user-message">
+                    <p>That's amazing! Can you also check if we need any reservations?</p>
+                </div>
+                
+                <div class="message bot-message">
+                    <p>Absolutely! I'm also checking for dinner reservations at top-rated restaurants matching your preferences and any exhibitions that require advance booking. Would you like me to prepare everything in a shareable itinerary you can access offline during your trip?</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="testimonials">
+            <div class="section-header">
+                <h2 class="section-title">What Our Users <span class="gradient-text">Say</span></h2>
+                <p class="section-subtitle">SAGE has already helped thousands of busy professionals streamline their day.</p>
+            </div>
+            
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"SAGE's multi-agent research capability transformed our content strategy. What used to take our team a full week now happens overnight with better quality and depth."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-info">
+                            <h4>Sarah Johnson</h4>
+                            <p>Marketing Director</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"I asked SAGE to help with my job search, and it was mind-blowing. Different agents simultaneously found openings, customized my applications, and prepared me for interviews. I landed my dream job in two weeks!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-info">
+                            <h4>James Wilson</h4>
+                            <p>Financial Analyst</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-content">"The event planning workflow saved my company thousands. Multiple agents negotiated with venues, coordinated with vendors, and managed guest communications simultaneously. It was like having an entire event planning firm at my fingertips."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar"></div>
+                        <div class="author-info">
+                            <h4>Elena Martinez</h4>
+                            <p>Startup Founder</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="cta" class="cta-section">
+            <h2 class="section-title">Ready to <span class="gradient-text">Get Started?</span></h2>
+            <p class="section-subtitle">Join thousands of users who are saving time and simplifying their daily tasks with SAGE.</p>
+            <a href="#" class="cta-button">Try SAGE on Telegram</a>
+            
+            <div class="security">
+                <div class="security-badge">
+                    <span class="security-icon">🔒</span>
+                    <span>End-to-End Encryption</span>
+                </div>
+                <div class="security-badge">
+                    <span class="security-icon">🛡️</span>
+                    <span>GDPR Compliant</span>
+                </div>
+                <div class="security-badge">
+                    <span class="security-icon">👁️</span>
+                    <span>Your Data Stays Private</span>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo">SAGE</div>
+                    <p>Smart Assistant that Gets Everything done. Your personal AI helper available on Telegram, ready to tackle your tasks with intelligence and efficiency.</p>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">ig</a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h3>Product</h3>
+                        <ul>
+                            <li><a href="#">Features</a></li>
+                            <li><a href="#">Roadmap</a></li>
+                            <li><a href="#">Integrations</a></li>
+                            <li><a href="#">Pricing</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Resources</h3>
+                        <ul>
+                            <li><a href="#">Documentation</a></li>
+                            <li><a href="#">Blog</a></li>
+                            <li><a href="#">Tutorials</a></li>
+                            <li><a href="#">Support</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-column">
+                        <h3>Company</h3>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Careers</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 SAGE AI Assistant. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
